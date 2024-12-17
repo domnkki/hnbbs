@@ -1,0 +1,176 @@
+
+body {
+  background-color: #f7d9da; /* Original light pink background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* Prevents scrollbars */
+}
+
+#envelope {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  transform-style: preserve-3d;
+  transform: perspective(800px);
+  transition: transform 0.6s ease-in-out;
+  background-color: transparent; /* Ensures no white background outside the envelope */
+}
+
+#envelope.open {
+  transform: rotateX(-20deg);
+}
+
+/* Flap Color Update (Pinkish) */
+.flap {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: #ff9ca5; /* Soft Pink for the flap */
+  top: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.6s ease-in-out;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+#envelope.open .flap {
+  transform: rotateX(-140deg);
+}
+
+/* Pocket Color Update (Light Pink) */
+.pocket {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: #f5b7b7; /* Light Pink for the pocket */
+  bottom: 0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Letter Color and Styling (Light Pink Background) */
+.letter {
+  position: absolute;
+  top: 100px;
+  left: 10%;
+  width: 80%;
+  height: 120px;
+  background-color: #f9c5c8; /* Light Pink for the letter background */
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateZ(-50px) translateY(10px);
+  opacity: 0;
+  transition: transform 0.6s ease-in-out, opacity 0.4s ease-in-out;
+  z-index: 0;
+  cursor: pointer;
+}
+
+#envelope.open .letter {
+  transform: translateZ(10px) translateY(-40px);
+  opacity: 1;
+}
+
+/* Popup Styling */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 80%;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  z-index: 10;
+}
+
+.popup.open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.popup p {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Overlay for Popup */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 0.4s ease;
+  display: none;
+}
+
+.overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+/* Button Styling */
+.buttons {
+  margin-top: 20px;
+}
+
+.buttons button {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background-color: #ff5757;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+  background-color: #fc9d9d;
+}
+
+/* Mobile Friendly */
+@media (max-width: 480px) {
+  #envelope {
+    width: 250px;
+    height: 150px;
+  }
+
+  .letter {
+    width: 90%;
+    height: auto;
+    max-height: 150px;
+    font-size: 12px;
+    top: 80px;
+  }
+
+  .popup {
+    width: 90%;
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+  }
+}
